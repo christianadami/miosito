@@ -8,7 +8,7 @@ res.send(`
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<title>Christian Dev | Ultra Pro 2.0</title>
+<title>Christian Dev | Tutorials 3.0</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
 <style>
@@ -28,7 +28,7 @@ nav a:hover{color:#ff00ff;text-shadow:0 0 10px #ff00ff;}
 .card{background:#111;padding:30px;border-radius:15px;transition:0.4s;box-shadow:0 0 15px rgba(0,247,255,0.1);cursor:pointer;}
 .card:hover{transform:scale(1.05);box-shadow:0 0 25px #00f7ff;}
 .card h3{color:#00f7ff;margin-bottom:15px;}
-#detail{display:none;margin-top:50px;text-align:left;max-width:900px;margin-left:auto;margin-right:auto;padding:30px;background:#111;border-radius:15px;box-shadow:0 0 25px rgba(0,247,255,0.4);animation:fadein 0.5s;}
+#detail{display:none;margin-top:50px;text-align:left;max-width:900px;margin-left:auto;margin-right:auto;padding:30px;background:#111;border-radius:15px;box-shadow:0 0 30px rgba(0,247,255,0.4);animation:fadein 0.5s;}
 #detail h2{color:#ff00ff;margin-bottom:20px;}
 #detail p{margin-bottom:15px;line-height:1.5;}
 #detail pre{background:#1c1c1c;padding:15px;border-radius:10px;overflow-x:auto;}
@@ -49,31 +49,31 @@ footer{padding:40px;text-align:center;background:#000;}
 </nav>
 
 <div class="hero">
-<h1>ULTRA DEV 2.0 EXPERIENCE</h1>
-<p>Impara Coding, Bot Discord, Sicurezza, Siti Web</p>
+<h1>ULTRA DEV 3.0 EXPERIENCE</h1>
+<p>Tutorial per principianti: Coding, Bot, Web, Sicurezza</p>
 </div>
 
 <section class="section" id="idee">
 <h2>💡 IDEE PER IMPARARE</h2>
 <div class="cards">
-<div class="card" onclick="showDetail('bot')"><h3>🤖 Bot Discord</h3><p>Clicca per vedere i tutorial</p></div>
-<div class="card" onclick="showDetail('web')"><h3>🌐 Web Dev</h3><p>Clicca per vedere i tutorial</p></div>
-<div class="card" onclick="showDetail('logica')"><h3>🧠 Logica</h3><p>Clicca per vedere i tutorial</p></div>
+<div class="card" onclick="showDetail('bot')"><h3>🤖 Bot Discord</h3><p>Clicca per vedere tutorial passo passo</p></div>
+<div class="card" onclick="showDetail('web')"><h3>🌐 Web Dev</h3><p>Clicca per vedere tutorial passo passo</p></div>
+<div class="card" onclick="showDetail('logica')"><h3>🧠 Logica</h3><p>Clicca per vedere tutorial passo passo</p></div>
 </div>
 </section>
 
 <section class="section" id="progetti">
 <h2>🚀 PROGETTI</h2>
 <div class="cards">
-<div class="card" onclick="showDetail('dashboard')"><h3>Dashboard Bot</h3><p>Clicca per tutorial completo</p></div>
-<div class="card" onclick="showDetail('portfolio')"><h3>Portfolio Dev</h3><p>Clicca per vedere come creare</p></div>
+<div class="card" onclick="showDetail('dashboard')"><h3>Dashboard Bot</h3><p>Tutorial passo passo</p></div>
+<div class="card" onclick="showDetail('portfolio')"><h3>Portfolio Dev</h3><p>Tutorial passo passo</p></div>
 </div>
 </section>
 
 <section class="section" id="sicurezza">
 <h2>🔐 Sicurezza Informatica</h2>
 <div class="cards">
-<div class="card" onclick="showDetail('sicurezza')"><h3>Hacking Etico</h3><p>Clicca per tutorial</p></div>
+<div class="card" onclick="showDetail('sicurezza')"><h3>Hacking Etico</h3><p>Tutorial passo passo</p></div>
 </div>
 </section>
 
@@ -134,22 +134,55 @@ function showDetail(tab){
 const detail = document.getElementById("detail");
 let html = "";
 if(tab==="bot"){
-html = "<h2>🤖 Bot Discord</h2><p>Installa Node.js e discord.js</p><p>Crea comandi, ticket system, musica</p><pre><code class='language-js'>const Discord = require('discord.js');\nconst client = new Discord.Client();\nclient.login('TOKEN');</code></pre>";
+html = "<h2>🤖 Bot Discord</h2>\
+<p>Tutorial passo passo per principianti:</p>\
+<p>1️⃣ Installa Node.js e crea una cartella per il bot.</p>\
+<p>2️⃣ Installa discord.js con <code>npm install discord.js</code>.</p>\
+<p>3️⃣ Crea <code>index.js</code> e scrivi il codice base:</p>\
+<pre><code class='language-js'>const Discord = require('discord.js');\nconst client = new Discord.Client();\nclient.login('TOKEN');</code></pre>\
+<p>4️⃣ Testa il bot con <code>node index.js</code>.</p>";
 }
 else if(tab==="web"){
-html = "<h2>🌐 Web Dev</h2><p>HTML, CSS, JS con esempi pratici:</p><pre><code class='language-html'>&lt;!DOCTYPE html&gt;\n&lt;html&gt;\n&lt;body&gt;\n&lt;h1&gt;Hello World&lt;/h1&gt;\n&lt;/body&gt;\n&lt;/html&gt;</code></pre>";
+html = "<h2>🌐 Web Dev</h2>\
+<p>Per principianti:</p>\
+<p>1️⃣ Crea <code>index.html</code> con struttura base HTML.</p>\
+<p>2️⃣ Aggiungi CSS per design:</p>\
+<pre><code class='language-css'>body { background:#0a0a0f; color:white; }</code></pre>\
+<p>3️⃣ Aggiungi JS per interazioni:</p>\
+<pre><code class='language-js'>console.log('Ciao Mondo');</code></pre>";
 }
 else if(tab==="logica"){
-html = "<h2>🧠 Logica</h2><p>Esempio JS:</p><pre><code class='language-js'>let x = 10;\nfor(let i=0;i<5;i++){\n  console.log(x+i);\n}</code></pre>";
+html = "<h2>🧠 Logica</h2>\
+<p>Concetti base:</p>\
+<p>1️⃣ Variabili:</p>\
+<pre><code class='language-js'>let x = 10;\nlet nome = 'Christian';</code></pre>\
+<p>2️⃣ Cicli:</p>\
+<pre><code class='language-js'>for(let i=0;i<5;i++){\n  console.log(i);\n}</code></pre>\
+<p>3️⃣ Funzioni:</p>\
+<pre><code class='language-js'>function saluta(){\n  console.log('Ciao!');\n}</code></pre>";
 }
 else if(tab==="dashboard"){
-html = "<h2>📊 Dashboard Bot</h2><p>Come collegare bot e dashboard:</p><pre><code class='language-js'>fetch('/api/users')\n.then(res=>res.json())\n.then(data=>console.log(data));</code></pre>";
+html = "<h2>📊 Dashboard Bot</h2>\
+<p>Guida passo passo:</p>\
+<p>1️⃣ Crea pagina web collegata al bot tramite API.</p>\
+<p>2️⃣ Mostra utenti, comandi, log staff.</p>\
+<p>3️⃣ Esempio fetch API:</p>\
+<pre><code class='language-js'>fetch('/api/users')\n.then(res=>res.json())\n.then(data=>console.log(data));</code></pre>";
 }
 else if(tab==="portfolio"){
-html = "<h2>💎 Portfolio Dev</h2><p>Pagina progetto esempio:</p><pre><code class='language-html'>&lt;div class='project'&gt;&lt;h2&gt;Progetto&lt;/h2&gt;&lt;/div&gt;</code></pre>";
+html = "<h2>💎 Portfolio Dev</h2>\
+<p>Guida per principianti:</p>\
+<p>1️⃣ Crea pagine progetto con HTML/CSS.</p>\
+<p>2️⃣ Aggiungi immagini, descrizioni.</p>\
+<p>3️⃣ Esempio base:</p>\
+<pre><code class='language-html'>&lt;div class='project'&gt;&lt;h2&gt;Progetto&lt;/h2&gt;&lt;/div&gt;</code></pre>";
 }
 else if(tab==="sicurezza"){
-html = "<h2>🔐 Sicurezza</h2><p>Consigli base:</p><pre><code class='language-js'>const password = 'MyStrongPassword!123';\nconsole.log('Proteggi le tue credenziali');</code></pre>";
+html = "<h2>🔐 Sicurezza Informatica</h2>\
+<p>Per principianti:</p>\
+<p>1️⃣ Usa password sicure:</p>\
+<pre><code class='language-js'>const password = 'MyStrongPassword!123';</code></pre>\
+<p>2️⃣ Proteggi server e account con regole base.</p>";
 }
 html += "<button id='backBtn' onclick='closeDetail()'>🔙 Torna Indietro</button>";
 detail.innerHTML = html;
@@ -171,5 +204,5 @@ window.scrollTo({top:0,behavior:'smooth'});
 });
 
 app.listen(PORT, () => {
-console.log("🔥 ULTRA PRO 2.0 TUTORIAL attivo su http://localhost:" + PORT);
+console.log("🔥 ULTRA PRO 3.0 attivo su http://localhost:" + PORT);
 });
