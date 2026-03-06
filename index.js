@@ -2,207 +2,145 @@ const express = require("express");
 const app = express();
 const PORT = 6700;
 
-app.get("/", (req, res) => {
-res.send(`
+// CSS condiviso
+const style = `
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron', sans-serif;scroll-behavior:smooth;}
+body{background:#0a0a0f;color:white;overflow-x:hidden;}
+nav{position:fixed;width:100%;padding:20px;background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);display:flex;justify-content:center;gap:40px;z-index:100;}
+nav a{color:#00f7ff;text-decoration:none;transition:0.3s;}
+nav a:hover{color:#ff00ff;text-shadow:0 0 10px #ff00ff;}
+h1{font-size:50px;background:linear-gradient(90deg,#00f7ff,#ff00ff);-webkit-background-clip:text;color:transparent;}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-top:50px;}
+.card{background:#111;padding:30px;border-radius:15px;transition:0.4s;box-shadow:0 0 15px rgba(0,247,255,0.1);cursor:pointer;}
+.card:hover{transform:scale(1.05);box-shadow:0 0 25px #00f7ff;}
+pre{background:#1c1c1c;padding:15px;border-radius:10px;overflow-x:auto;}
+button{display:inline-block;margin-top:20px;padding:10px 20px;background:#00f7ff;color:#000;border:none;border-radius:10px;cursor:pointer;transition:0.3s;}
+button:hover{background:#ff00ff;color:#fff;}
+footer{padding:40px;text-align:center;background:#000;margin-top:50px;}
+`;
+
+// Funzione per generare pagina
+function makePage(title, content) {
+  return `
 <!DOCTYPE html>
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<title>Christian Dev | Tutorials 3.0</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+<title>${title}</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Orbitron', sans-serif;scroll-behavior:smooth;}
-body{background:#0a0a0f;color:white;overflow-x:hidden;}
-#particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;}
-nav{position:fixed;width:100%;padding:20px;background:rgba(0,0,0,0.5);backdrop-filter:blur(10px);display:flex;justify-content:center;gap:40px;z-index:100;}
-nav a{color:#00f7ff;text-decoration:none;transition:0.3s;}
-nav a:hover{color:#ff00ff;text-shadow:0 0 10px #ff00ff;}
-.hero{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
-.hero h1{font-size:50px;background:linear-gradient(90deg,#00f7ff,#ff00ff);-webkit-background-clip:text;color:transparent;animation:glow 2s infinite alternate;}
-@keyframes glow{from{filter:drop-shadow(0 0 5px #00f7ff);}to{filter:drop-shadow(0 0 20px #ff00ff);}}
-.hero p{margin-top:20px;opacity:0.8;}
-.section{padding:100px 50px;text-align:center;opacity:0;transform:translateY(50px);transition:1s;}
-.section.active{opacity:1;transform:translateY(0);}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:30px;margin-top:50px;}
-.card{background:#111;padding:30px;border-radius:15px;transition:0.4s;box-shadow:0 0 15px rgba(0,247,255,0.1);cursor:pointer;}
-.card:hover{transform:scale(1.05);box-shadow:0 0 25px #00f7ff;}
-.card h3{color:#00f7ff;margin-bottom:15px;}
-#detail{display:none;margin-top:50px;text-align:left;max-width:900px;margin-left:auto;margin-right:auto;padding:30px;background:#111;border-radius:15px;box-shadow:0 0 30px rgba(0,247,255,0.4);animation:fadein 0.5s;}
-#detail h2{color:#ff00ff;margin-bottom:20px;}
-#detail p{margin-bottom:15px;line-height:1.5;}
-#detail pre{background:#1c1c1c;padding:15px;border-radius:10px;overflow-x:auto;}
-#backBtn{display:inline-block;margin-top:20px;padding:10px 20px;background:#00f7ff;color:#000;border:none;border-radius:10px;cursor:pointer;transition:0.3s;}
-#backBtn:hover{background:#ff00ff;color:#fff;}
-@keyframes fadein{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-footer{padding:40px;text-align:center;background:#000;}
-</style>
+<style>${style}</style>
 </head>
 <body>
-
-<canvas id="particles"></canvas>
-
 <nav>
-<a href="#idee">Idee</a>
-<a href="#progetti">Progetti</a>
-<a href="#sicurezza">Sicurezza</a>
+<a href="/">🏠 Home</a>
+<a href="/bot">🤖 Bot</a>
+<a href="/web">🌐 Web</a>
+<a href="/logica">🧠 Logica</a>
+<a href="/dashboard">📊 Dashboard</a>
+<a href="/portfolio">💎 Portfolio</a>
+<a href="/sicurezza">🔐 Sicurezza</a>
 </nav>
-
-<div class="hero">
-<h1>ULTRA DEV 3.0 EXPERIENCE</h1>
-<p>Tutorial per principianti: Coding, Bot, Web, Sicurezza</p>
+<div style="padding:120px 50px 50px 50px;">
+${content}
 </div>
-
-<section class="section" id="idee">
-<h2>💡 IDEE PER IMPARARE</h2>
-<div class="cards">
-<div class="card" onclick="showDetail('bot')"><h3>🤖 Bot Discord</h3><p>Clicca per vedere tutorial passo passo</p></div>
-<div class="card" onclick="showDetail('web')"><h3>🌐 Web Dev</h3><p>Clicca per vedere tutorial passo passo</p></div>
-<div class="card" onclick="showDetail('logica')"><h3>🧠 Logica</h3><p>Clicca per vedere tutorial passo passo</p></div>
-</div>
-</section>
-
-<section class="section" id="progetti">
-<h2>🚀 PROGETTI</h2>
-<div class="cards">
-<div class="card" onclick="showDetail('dashboard')"><h3>Dashboard Bot</h3><p>Tutorial passo passo</p></div>
-<div class="card" onclick="showDetail('portfolio')"><h3>Portfolio Dev</h3><p>Tutorial passo passo</p></div>
-</div>
-</section>
-
-<section class="section" id="sicurezza">
-<h2>🔐 Sicurezza Informatica</h2>
-<div class="cards">
-<div class="card" onclick="showDetail('sicurezza')"><h3>Hacking Etico</h3><p>Tutorial passo passo</p></div>
-</div>
-</section>
-
-<div id="detail"></div>
-
-<footer>
-Christian Dev © 2026
-</footer>
-
+<footer>Christian Dev © 2026</footer>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
 <script>hljs.highlightAll();</script>
-
-<script>
-// SCROLL ANIMATION
-const sections = document.querySelectorAll(".section");
-window.addEventListener("scroll", () => {
-sections.forEach(sec=>{
-const top = sec.getBoundingClientRect().top;
-if(top < window.innerHeight - 100){
-sec.classList.add("active");
-}
-});
-});
-
-// PARTICLE BACKGROUND
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-let particles = [];
-for(let i=0;i<100;i++){
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-radius:Math.random()*2,
-dx:(Math.random()-0.5),
-dy:(Math.random()-0.5)
-});
-}
-function animate(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-particles.forEach(p=>{
-p.x+=p.dx;
-p.y+=p.dy;
-if(p.x<0||p.x>canvas.width) p.dx*=-1;
-if(p.y<0||p.y>canvas.height) p.dy*=-1;
-ctx.beginPath();
-ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
-ctx.fillStyle="#00f7ff";
-ctx.fill();
-});
-requestAnimationFrame(animate);
-}
-animate();
-
-// TABS / DETAIL
-function showDetail(tab){
-const detail = document.getElementById("detail");
-let html = "";
-if(tab==="bot"){
-html = "<h2>🤖 Bot Discord</h2>\
-<p>Tutorial passo passo per principianti:</p>\
-<p>1️⃣ Installa Node.js e crea una cartella per il bot.</p>\
-<p>2️⃣ Installa discord.js con <code>npm install discord.js</code>.</p>\
-<p>3️⃣ Crea <code>index.js</code> e scrivi il codice base:</p>\
-<pre><code class='language-js'>const Discord = require('discord.js');\nconst client = new Discord.Client();\nclient.login('TOKEN');</code></pre>\
-<p>4️⃣ Testa il bot con <code>node index.js</code>.</p>";
-}
-else if(tab==="web"){
-html = "<h2>🌐 Web Dev</h2>\
-<p>Per principianti:</p>\
-<p>1️⃣ Crea <code>index.html</code> con struttura base HTML.</p>\
-<p>2️⃣ Aggiungi CSS per design:</p>\
-<pre><code class='language-css'>body { background:#0a0a0f; color:white; }</code></pre>\
-<p>3️⃣ Aggiungi JS per interazioni:</p>\
-<pre><code class='language-js'>console.log('Ciao Mondo');</code></pre>";
-}
-else if(tab==="logica"){
-html = "<h2>🧠 Logica</h2>\
-<p>Concetti base:</p>\
-<p>1️⃣ Variabili:</p>\
-<pre><code class='language-js'>let x = 10;\nlet nome = 'Christian';</code></pre>\
-<p>2️⃣ Cicli:</p>\
-<pre><code class='language-js'>for(let i=0;i<5;i++){\n  console.log(i);\n}</code></pre>\
-<p>3️⃣ Funzioni:</p>\
-<pre><code class='language-js'>function saluta(){\n  console.log('Ciao!');\n}</code></pre>";
-}
-else if(tab==="dashboard"){
-html = "<h2>📊 Dashboard Bot</h2>\
-<p>Guida passo passo:</p>\
-<p>1️⃣ Crea pagina web collegata al bot tramite API.</p>\
-<p>2️⃣ Mostra utenti, comandi, log staff.</p>\
-<p>3️⃣ Esempio fetch API:</p>\
-<pre><code class='language-js'>fetch('/api/users')\n.then(res=>res.json())\n.then(data=>console.log(data));</code></pre>";
-}
-else if(tab==="portfolio"){
-html = "<h2>💎 Portfolio Dev</h2>\
-<p>Guida per principianti:</p>\
-<p>1️⃣ Crea pagine progetto con HTML/CSS.</p>\
-<p>2️⃣ Aggiungi immagini, descrizioni.</p>\
-<p>3️⃣ Esempio base:</p>\
-<pre><code class='language-html'>&lt;div class='project'&gt;&lt;h2&gt;Progetto&lt;/h2&gt;&lt;/div&gt;</code></pre>";
-}
-else if(tab==="sicurezza"){
-html = "<h2>🔐 Sicurezza Informatica</h2>\
-<p>Per principianti:</p>\
-<p>1️⃣ Usa password sicure:</p>\
-<pre><code class='language-js'>const password = 'MyStrongPassword!123';</code></pre>\
-<p>2️⃣ Proteggi server e account con regole base.</p>";
-}
-html += "<button id='backBtn' onclick='closeDetail()'>🔙 Torna Indietro</button>";
-detail.innerHTML = html;
-detail.style.display="block";
-detail.scrollIntoView({behavior:'smooth'});
-hljs.highlightAll();
-}
-
-function closeDetail(){
-const detail = document.getElementById("detail");
-detail.style.display="none";
-window.scrollTo({top:0,behavior:'smooth'});
-}
-</script>
-
 </body>
 </html>
-`);
-});
+`;
+}
+
+// Contenuti delle pagine
+const pages = {
+  "/": makePage("Christian Dev | Tutorials 3.0", `
+<h1>ULTRA DEV 3.0 EXPERIENCE</h1>
+<p>Tutorial per principianti: Coding, Bot, Web, Sicurezza</p>
+<div class="cards">
+<div class="card"><a href="/bot">🤖 Bot Discord</a></div>
+<div class="card"><a href="/web">🌐 Web Dev</a></div>
+<div class="card"><a href="/logica">🧠 Logica</a></div>
+<div class="card"><a href="/dashboard">📊 Dashboard Bot</a></div>
+<div class="card"><a href="/portfolio">💎 Portfolio Dev</a></div>
+<div class="card"><a href="/sicurezza">🔐 Sicurezza</a></div>
+</div>
+`),
+
+  "/bot": makePage("🤖 Tutorial Bot Discord", `
+<h1>🤖 Bot Discord - Tutorial</h1>
+<p>Impara a creare un bot Discord e cosa fa ogni riga di codice.</p>
+<h2>1️⃣ Installazione</h2>
+<pre><code class="language-bash">npm init -y
+npm install discord.js</code></pre>
+<h2>2️⃣ Codice base</h2>
+<pre><code class="language-js">const Discord = require('discord.js');
+const client = new Discord.Client();
+client.login('TOKEN');</code></pre>
+<p>client.login('TOKEN') connette il bot a Discord.</p>
+<h2>3️⃣ Aggiungere comandi</h2>
+<pre><code class="language-js">client.on('message', message => {
+  if(message.content === '!ciao'){
+    message.channel.send('Ciao!');
+  }
+});</code></pre>
+`),
+
+  "/web": makePage("🌐 Tutorial Web Dev", `
+<h1>🌐 Web Development - Tutorial</h1>
+<p>Creiamo pagine web interattive.</p>
+<h2>1️⃣ HTML base</h2>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;&lt;head&gt;&lt;/head&gt;&lt;body&gt;Ciao&lt;/body&gt;&lt;/html&gt;</code></pre>
+<h2>2️⃣ CSS design</h2>
+<pre><code class="language-css">body { background:#0a0a0f; color:white; }</code></pre>
+<h2>3️⃣ JS interazioni</h2>
+<pre><code class="language-js">console.log('Ciao Mondo');</code></pre>
+`),
+
+  "/logica": makePage("🧠 Tutorial Logica", `
+<h1>🧠 Logica - Programmazione</h1>
+<h2>Variabili</h2>
+<pre><code class="language-js">let x = 10;
+let nome = 'Christian';</code></pre>
+<h2>Cicli</h2>
+<pre><code class="language-js">for(let i=0;i<5;i++){
+  console.log(i);
+}</code></pre>
+<h2>Funzioni</h2>
+<pre><code class="language-js">function saluta(){
+  console.log('Ciao!');
+}</code></pre>
+`),
+
+  "/dashboard": makePage("📊 Dashboard Bot", `
+<h1>📊 Dashboard Bot</h1>
+<p>Pagina web collegata al bot tramite API.</p>
+<h2>Esempio fetch API</h2>
+<pre><code class="language-js">fetch('/api/users')
+.then(res => res.json())
+.then(data => console.log(data));</code></pre>
+`),
+
+  "/portfolio": makePage("💎 Portfolio Dev", `
+<h1>💎 Portfolio Dev</h1>
+<p>Guida per creare un portfolio per i tuoi progetti.</p>
+<h2>HTML base</h2>
+<pre><code class="language-html">&lt;div class='project'&gt;&lt;h2&gt;Progetto&lt;/h2&gt;&lt;/div&gt;</code></pre>
+`),
+
+  "/sicurezza": makePage("🔐 Sicurezza Informatica", `
+<h1>🔐 Sicurezza Informatica</h1>
+<h2>Password sicure</h2>
+<pre><code class="language-js">const password = 'MyStrongPassword!123';</code></pre>
+<p>Proteggi server e account seguendo regole di base.</p>
+`),
+};
+
+// Rotte
+for (const path in pages) {
+  app.get(path, (req, res) => res.send(pages[path]));
+}
 
 app.listen(PORT, () => {
-console.log("🔥 ULTRA PRO 3.0 attivo su http://localhost:" + PORT);
+  console.log(`🔥 ULTRA PRO 3.0 attivo su http://localhost:${PORT}`);
 });
