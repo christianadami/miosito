@@ -141,6 +141,4 @@ for (const path in pages) {
   app.get(path, (req, res) => res.send(pages[path]));
 }
 
-app.listen(PORT, () => {
-  console.log(`🔥 ULTRA PRO 3.0 attivo su http://localhost:${PORT}`);
-});
+module.exports = app;
